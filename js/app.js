@@ -32,6 +32,8 @@ const showProducts = (products) => {
 // Products Price add to Card 
 let count = 0;
 const addToCart = (id, price) => {
+  const productShow = document.getElementById('product-details');
+  productShow.textContent = '';
   count = count + 1;
   updatePrice("price", price);
   updateTaxAndCharge();
@@ -84,15 +86,29 @@ const updateTotal = () => {
 };
 loadProducts();
 
-// Show Details 
+// fatch Details id
 const showDetails = (id) =>{
   const url = `https://fakestoreapi.com/products/${id}`;
   fetch(url)
   .then(res=>res.json())
   .then(data=>showDetailsUi(data))
 }
-
-// Set Details UI 
+//  products Details Display
 const showDetailsUi = products =>{
-  console.log(products)
+  const product = products;
+  const productShow = document.getElementById('product-details');
+  productShow.textContent = '';
+  const div = document.createElement('div');
+  div.classList.add('card', 'text-center', 'border', 'border-success');
+  div.innerHTML = `
+    <img src="${product.image}" class="w-50 mx-auto text-center mt-4" alt="...">
+    <div class="card-body">
+    <h3 class="text-success">${product.title.slice(0, 18)}</h3>
+    <h5>Category: ${product.category}</h5>
+    <h5>Avg Ratings: ${product.rating.rate}</h5>
+    <h4 class="mt-4 text-success">Price: ${product.price}</h4>
+    </div>
+    `;
+    productShow.appendChild(div);
+  // console.log(products)
 }
